@@ -1,1 +1,11 @@
 test_1_emailAddress=ss@ss.com
+
+test_2_invalidAddress=s@.com::ss.com::!@#$%^%^.com
+
+test_3_emailAddress=test3@test-domain.com
+
+test_4_1_emailAddress=test4@test-domain.com
+test_4_1_nonDynamicEmail
+test_4_2_emailAddress=test4@test-domain.com
+test_4_2_nonDynamicEmail
+test_4_2_expectedErrorMessage=This email address has already been registered in our system. Please register with a new email address.

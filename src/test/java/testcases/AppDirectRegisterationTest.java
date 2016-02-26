@@ -26,17 +26,30 @@ public class AppDirectRegisterationTest {
 			e.printStackTrace();
 		}
 	}
-	@Test
-	public void test() throws Exception {
-		RegisterationUtil util = new RegisterationUtil(registerationTestData,"test_1");
-		util.navigateToRegisterationPage();
-	}
 	
 	@Test
 	public void verifyElements_1() throws Exception {
 		RegisterationUtil util = new RegisterationUtil(registerationTestData,"test_1");
 		util.verifyElements();
 	}
+	
+	@Test
+	public void invalidEmailValidation_2() throws Exception {
+		RegisterationUtil util = new RegisterationUtil(registerationTestData,"test_2");
+		util.register();
+	}
+	@Test
+	public void verifyEmailRegisteration_3() throws Exception {
+		RegisterationUtil util = new RegisterationUtil(registerationTestData,"test_3");
+		util.register();
+	}
+	@Test
+	public void verifyDuplicateEmailRegisteration_4() throws Exception {
+		RegisterationUtil util = new RegisterationUtil(registerationTestData,"test_4_1");
+		util.register();
+		util = new RegisterationUtil(registerationTestData,"test_4_2");
+		util.register();
 
+	}
 	
 }

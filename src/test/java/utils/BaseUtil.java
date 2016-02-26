@@ -79,7 +79,7 @@ public class BaseUtil {
             {
                driver = new FirefoxDriver(capabilities);
             }
-           // driver.manage().timeouts().implicitlyWait(timeOutInSeconds, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(timeOutInSeconds, TimeUnit.SECONDS);
         }
         catch (Exception e)
         {

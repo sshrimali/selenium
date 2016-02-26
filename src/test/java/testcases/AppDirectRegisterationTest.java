@@ -1,7 +1,5 @@
 package testcases;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 import utils.RegisterationUtil;
 
@@ -32,7 +30,13 @@ public class AppDirectRegisterationTest {
 	public void test() throws Exception {
 		RegisterationUtil util = new RegisterationUtil(registerationTestData,"test_1");
 		util.navigateToRegisterationPage();
-
+	}
+	
+	@Test
+	public void verifyElements_1() throws Exception {
+		RegisterationUtil util = new RegisterationUtil(registerationTestData,"test_1");
+		util.verifyElements();
 	}
 
+	
 }

@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-public class AppDirectRegisterationTestTest {
+public class AppDirectRegisterationTest {
 
 	private static Properties registerationTestData;
 
@@ -22,7 +22,6 @@ public class AppDirectRegisterationTestTest {
 			FileInputStream userDataFis = new FileInputStream("testdata/appdirect/appDirectRegisteration.txt");
 			registerationTestData.load(userDataFis);
 			userDataFis.close();
-
 		}
 		catch (Exception e)
 		{

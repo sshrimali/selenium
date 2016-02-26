@@ -1,6 +1,8 @@
 package testcases;
 
 import org.junit.Test;
+import org.testng.annotations.AfterClass;
+import utils.BaseUtil;
 import utils.RegisterationUtil;
 
 import java.io.File;
@@ -16,7 +18,7 @@ public class AppDirectRegisterationTest {
 		try
 		{
 			registerationTestData = new Properties();
-
+			// Read Test data as property and pass to utilities
 			FileInputStream userDataFis = new FileInputStream("testdata/appdirect/appDirectRegisteration.txt");
 			registerationTestData.load(userDataFis);
 			userDataFis.close();
@@ -26,13 +28,19 @@ public class AppDirectRegisterationTest {
 			e.printStackTrace();
 		}
 	}
-	
+	@AfterClass
+	public void cleanUp()
+	{
+		BaseUtil.close();
+
+	}
+
 	@Test
 	public void verifyElements_1() throws Exception {
 		RegisterationUtil util = new RegisterationUtil(registerationTestData,"test_1");
 		util.verifyElements();
 	}
-	
+
 	@Test
 	public void invalidEmailValidation_2() throws Exception {
 		RegisterationUtil util = new RegisterationUtil(registerationTestData,"test_2");
@@ -51,5 +59,5 @@ public class AppDirectRegisterationTest {
 		util.register();
 
 	}
-	
+
 }

@@ -24,16 +24,19 @@ public class RegisterationUtil extends BaseUtil{
 	private String regConfirmationText2;
 	private String regConfirmationText3;
 	private String errorMessageLoc;
-	private String expectedErrorMessage; 
+	private String expectedErrorMessage;
 
 	public RegisterationUtil(Properties suiteDataProp, String testcaseId) throws Exception
 	{
 		this.suiteProperties = suiteDataProp;
 		this.testcaseId = testcaseId;
+		// read all test data
 		getTestDataContext();
+		//configure all element locators
 		setElementId();
 	}
 	void setElementId() {
+		// Configure all locators
 		loginLink="//span[contains(text(),'Log In')]";
 		signUpLink="//a[contains(text(),'Sign up for an account')]";
 		emailTextBox="//input[@placeholder='email@address.com']";
@@ -59,24 +62,19 @@ public class RegisterationUtil extends BaseUtil{
 
 	public void navigateToRegisterationPage() throws Exception
 	{
-		//Thread.sleep(20000);
+		// Navigate till registeration page
 		element = driver.findElement(By.xpath(loginLink));
 		element.click();
-		//Thread.sleep(20000);
-		System.out.println("TstSUcc");
-
 		element = driver.findElement(By.xpath(signUpLink));
 		element.click();
-		System.out.println("test data : " + emailAddress);
 	}
 	public void verifyElements() throws Exception {
-		// TODO Auto-generated method stub
 		navigateToRegisterationPage();
+		// Verify all basic required elements are present on page
 		element = driver.findElement(By.xpath(emailTextBox));
 		element = driver.findElement(By.name(signUpButton));
 	}
 	public void register() throws Exception {
-		// TODO Auto-generated method stub
 		navigateToRegisterationPage();
 		if (suiteProperties.containsKey(testcaseId + "_invalidAddress"))
 		{
@@ -88,7 +86,8 @@ public class RegisterationUtil extends BaseUtil{
 				element = driver.findElement(By.name(signUpButton));
 				element.click();
 
-			}	
+			}
+			//Ensure that sign up button still present which means confirmation mail has not been sent to invalid users
 			element = driver.findElement(By.name(signUpButton));
 			return;
 		}
@@ -96,13 +95,14 @@ public class RegisterationUtil extends BaseUtil{
 		element.clear();
 		if (!suiteProperties.containsKey(testcaseId + "_nonDynamicEmail"))
 		{
-		emailAddress = emailAddress.replace("@","_" + System.currentTimeMillis() + "@");
+			emailAddress = emailAddress.replace("@","_" + System.currentTimeMillis() + "@");
 		}
 		element.sendKeys(emailAddress);
 		element = driver.findElement(By.name(signUpButton));
 		element.click();
 		if (suiteProperties.containsKey(testcaseId + "_expectedErrorMessage"))
 		{
+			// Expect error message as per test data.
 			element = driver.findElement(By.xpath(String.format(errorMessageLoc, expectedErrorMessage)));
 			return;
 		}

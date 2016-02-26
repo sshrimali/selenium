@@ -16,37 +16,36 @@ import java.util.concurrent.TimeUnit;
  * Created by sourabh on 2/25/16.
  */
 public class BaseUtil {
-    private String browser = "firefox";
-    private DesiredCapabilities capabilities;
-    protected static WebDriver driver;
+	private String browser = "firefox";
+	private DesiredCapabilities capabilities;
+	protected static WebDriver driver;
 	private Properties globalProperties;
 	private int timeOutInSeconds;
 	private static String baseURL;
 
-    public BaseUtil() throws Exception
-    {
-        setup();
-        tearDown();
+	public BaseUtil() throws Exception
+	{
+		setup();
+		tearDown();
+	}
 
-    }
+	private void tearDown() {
+		// Future : Used to bring system to base page as expected by next testcase.
+	}
 
-    private void tearDown() {
+	public void setup() throws Exception
+	{
+		// TO be executed before start of every util initialization
+		setGlobalProperties();
+		driver = getWebDriver();
+		driver.get(baseURL);
+		driver.manage().window().maximize();
+		//driver.close();
+	}
 
-    }
-
-    public void setup() throws Exception
- {
-     setGlobalProperties();
-     driver = getWebDriver();
-     driver.get(baseURL);
-     driver.manage().window().maximize();
-     //driver.close();
- }
-
-    private void setGlobalProperties() throws Exception {
-		// TODO Auto-generated method stub
-    	globalProperties = new Properties();
-
+	private void setGlobalProperties() throws Exception {
+		// read properties from config file that are applibale to framework
+		globalProperties = new Properties();
 		FileInputStream config = new FileInputStream("config/config.cfg");
 		globalProperties.load(config);
 		config.close();
@@ -55,41 +54,40 @@ public class BaseUtil {
 	}
 
 	private WebDriver getWebDriver() {
-        try
-        {
-            DesiredCapabilities capabilities = new DesiredCapabilities();
+		try
+		{
+			DesiredCapabilities capabilities = new DesiredCapabilities();
 
-            if (browser.equalsIgnoreCase("firefox"))
-            {
-                capabilities.setBrowserName("firefox");
-                FirefoxProfile profile = new FirefoxProfile();
-                // add any custom firefox configurations...
-//                profile.setPreference("javascript.options.showInConsole", true);
-//                profile.setPreference("dom.max_script_run_time", 340);
-//                profile.setPreference("dom.max_chrome_script_run_time", 460);
-                profile.setAcceptUntrustedCertificates(true);
-                profile.setAssumeUntrustedCertificateIssuer(true);
-                profile.setEnableNativeEvents(true);
-                capabilities.setCapability(FirefoxDriver.PROFILE,profile);
-            }
-            capabilities.setJavascriptEnabled(true);
-            capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-           
-            if (driver == null)
-            {
-               driver = new FirefoxDriver(capabilities);
-            }
-            driver.manage().timeouts().implicitlyWait(timeOutInSeconds, TimeUnit.SECONDS);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+			if (browser.equalsIgnoreCase("firefox"))
+			{
+				// Configure custom profile parameters
+				capabilities.setBrowserName("firefox");
+				FirefoxProfile profile = new FirefoxProfile();
+				profile.setAcceptUntrustedCertificates(true);
+				profile.setAssumeUntrustedCertificateIssuer(true);
+				profile.setEnableNativeEvents(true);
+				capabilities.setCapability(FirefoxDriver.PROFILE,profile);
+			}
+			// Configure generic parameters
+			capabilities.setJavascriptEnabled(true);
+			capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 
+			// Create driver session only if it does not exist
+			if (driver == null)
+			{
+				driver = new FirefoxDriver(capabilities);
+			}
+			//Configure implicit time out globally
+			driver.manage().timeouts().implicitlyWait(timeOutInSeconds, TimeUnit.SECONDS);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return driver;
+	}
 
-        return driver;
-
-    }
-
-
+	public static void close() {
+		driver.quit();
+	}
 }

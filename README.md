@@ -7,4 +7,4 @@ Pre-requisites
 To execute the testcases, 
 1. open the framework in any standard IDE - ecplise/idea 
 2. Right click on package - selenium
-3. 3. Select -> run as testNG test.
+3. Select -> run as testNG test.
